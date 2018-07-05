@@ -3,6 +3,8 @@ package com.jt.square.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ public class WebhooksController {
 	private InventoryService inventoryService;
 
 	@RequestMapping(value = "/square/api/webhooks", method = RequestMethod.POST)
-	public String webhooks(
+	public ResponseEntity<String> webhooks(
 //		        @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
 		        @RequestBody WebhooksDto dto) {
 
@@ -31,7 +33,7 @@ public class WebhooksController {
 			System.out.println(inventoryList);
 		}
 
-		return "";
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 }
