@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.jt.square.dto.WebhooksDto;
 import com.jt.square.service.InventoryService;
 import com.squareup.connect.models.V1InventoryEntry;
 
@@ -23,7 +22,7 @@ public class WebhooksController {
 	@RequestMapping(value = "/square/api/webhooks", method = RequestMethod.POST)
 	public ResponseEntity<String> webhooks(
 //		        @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
-		        @RequestBody WebhooksDto dto) {
+		        @RequestBody String dto) {
 
 		System.out.println(dto);
 
