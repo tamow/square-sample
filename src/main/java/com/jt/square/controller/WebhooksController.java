@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jt.square.dto.WebhooksDto;
 import com.jt.square.service.InventoryService;
@@ -24,16 +26,13 @@ public class WebhooksController {
 
 	@RequestMapping(value = "/square/api/webhooks", method = RequestMethod.POST)
 	public ResponseEntity<String> webhooks(
-			// @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
-			@RequestBody String body) {
+//		        @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
+			@RequestBody String body) throws JsonParseException, JsonMappingException, IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
-		try {
-			WebhooksDto dto = mapper.readValue(body, WebhooksDto.class);
-			System.out.println(dto.getLocationId());
-		} catch (IOException e) {
+		WebhooksDto dto = mapper.readValue(body, WebhooksDto.class);
 
-		}
+		System.out.println(dto.getLocationId());
 
 		List<V1InventoryEntry> inventoryList = inventoryService.listInventory();
 
