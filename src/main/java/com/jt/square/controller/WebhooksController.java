@@ -25,7 +25,7 @@ public class WebhooksController {
 //		        @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
 			@RequestBody WebhooksDto dto) {
 
-		System.out.println(dto);
+		System.out.println(dto.getMerchantId());
 
 		List<V1InventoryEntry> inventoryList = inventoryService.listInventory();
 
