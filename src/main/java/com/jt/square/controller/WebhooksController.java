@@ -1,5 +1,6 @@
 package com.jt.square.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,12 @@ public class WebhooksController {
 			@RequestBody String body) {
 
 		ObjectMapper mapper = new ObjectMapper();
-		WebhooksDto dto = mapper.readValue(body, WebhooksDto.class);
+		try {
+			WebhooksDto dto = mapper.readValue(body, WebhooksDto.class);
+			System.out.println(dto.getLocationId());
+		} catch (IOException e) {
 
-		System.out.println(dto.getLocationId());
+		}
 
 		List<V1InventoryEntry> inventoryList = inventoryService.listInventory();
 
