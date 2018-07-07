@@ -1,11 +1,11 @@
 package com.jt.square.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
 
-@Getter
-@Setter
-public class WebhooksDto {
+import lombok.Data;
+
+@Data
+public class WebhooksDto implements Serializable {
 
 	private String locationId;
 
