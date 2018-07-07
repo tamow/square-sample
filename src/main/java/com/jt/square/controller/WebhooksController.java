@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class WebhooksController {
 	@Autowired
 	private InventoryService inventoryService;
 
-	@RequestMapping(value = "/square/api/webhooks", method = RequestMethod.POST)
+	@RequestMapping(value = "/square/api/webhooks", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> webhooks(
 //		        @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
 			@RequestBody WebhooksDto dto) {
