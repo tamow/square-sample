@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.jt.square.dto.WebhooksDto;
 import com.jt.square.service.InventoryService;
 import com.squareup.connect.models.V1InventoryEntry;
@@ -30,7 +31,8 @@ public class WebhooksController {
 			@RequestBody String body) throws JsonParseException, JsonMappingException, IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
-		WebhooksDto dto = mapper.readValue(body, WebhooksDto.class);
+		WebhooksDto dto = mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE).readValue(body,
+				WebhooksDto.class);
 
 		System.out.println(dto.getLocationId());
 
