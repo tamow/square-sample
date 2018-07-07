@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jt.square.dto.WebhooksDto;
 import com.jt.square.service.InventoryService;
 import com.squareup.connect.models.V1InventoryEntry;
 
@@ -29,10 +27,10 @@ public class WebhooksController {
 //		        @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
 			@RequestBody String body) throws JsonParseException, JsonMappingException, IOException {
 
-		ObjectMapper mapper = new ObjectMapper();
-		WebhooksDto dto = mapper.readValue(body, WebhooksDto.class);
+//		ObjectMapper mapper = new ObjectMapper();
+//		WebhooksDto dto = mapper.readValue(body, WebhooksDto.class);
 
-		System.out.println(dto.getLocationId());
+		System.out.println(body);
 
 		List<V1InventoryEntry> inventoryList = inventoryService.listInventory();
 
