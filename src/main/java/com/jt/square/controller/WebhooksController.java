@@ -35,6 +35,9 @@ public class WebhooksController {
 				WebhooksDto.class);
 
 		System.out.println(dto.getLocationId());
+		System.out.println(dto.getEventType());
+		System.out.println(dto.getMerchantId());
+		System.out.println(dto.getEntityId());
 
 		List<V1InventoryEntry> inventoryList = inventoryService.listInventory();
 
