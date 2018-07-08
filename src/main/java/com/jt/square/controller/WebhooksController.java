@@ -27,7 +27,7 @@ public class WebhooksController {
 	private InventoryService inventoryService;
 
 	@RequestMapping(value = "/square/api/webhooks", method = RequestMethod.POST)
-	public ResponseEntity<String> webhooks(@RequestHeader(value = "HTTP_X_SQUARE_SIGNATURE") String squareSignature,
+	public ResponseEntity<String> webhooks(@RequestHeader("X-Square-Signature") String squareSignature,
 			@RequestBody String body) throws JsonParseException, JsonMappingException, IOException {
 
 		System.out.println(squareSignature);
