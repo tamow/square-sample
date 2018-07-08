@@ -3,6 +3,7 @@ package com.jt.square.controller;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.List;
 
 import javax.crypto.Mac;
@@ -49,10 +50,7 @@ public class WebhooksController {
 		final Mac mac = Mac.getInstance(algo);
 		mac.init(keySpec);
 		final byte[] signBytes = mac.doFinal(stringToSign.getBytes());
-		for (byte signByte : signBytes) {
-			System.out.printf("%02x", signByte & 0xff);
-		}
-		System.out.print("\n");
+		System.out.println(Base64.getEncoder().encodeToString(signBytes));
 
 		ObjectMapper mapper = new ObjectMapper();
 		WebhooksDto dto = mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE).readValue(body,
