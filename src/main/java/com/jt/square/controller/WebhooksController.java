@@ -36,6 +36,7 @@ public class WebhooksController {
 			@RequestBody String body) throws JsonParseException, JsonMappingException, IOException, InvalidKeyException,
 			NoSuchAlgorithmException {
 
+		System.out.println(body);
 		System.out.println(squareSignature);
 
 		final String WEBHOOK_URL = "https://square-sample.herokuapp.com/square/api/webhooks";
