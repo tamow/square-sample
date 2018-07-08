@@ -29,6 +29,9 @@ public class SignatureService {
 		mac.init(new SecretKeySpec(signatureKey.getBytes(), algo));
 		String stringSignature = Base64.getEncoder().encodeToString(mac.doFinal(stringToSign.getBytes()));
 
+		System.out.println(notificationSignature);
+		System.out.println(stringSignature);
+
 		return notificationSignature.equals(stringSignature);
 	}
 }
