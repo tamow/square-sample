@@ -3,11 +3,7 @@ package com.jt.square.controller;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.List;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +20,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.jt.square.dto.WebhooksDto;
 import com.jt.square.service.InventoryService;
+import com.jt.square.service.SignatureService;
 import com.squareup.connect.models.V1InventoryEntry;
 
 @Controller
 public class WebhooksController {
+
+	@Autowired
+	private SignatureService signatureService;
 
 	@Autowired
 	private InventoryService inventoryService;
@@ -37,32 +37,15 @@ public class WebhooksController {
 			@RequestBody String body) throws JsonParseException, JsonMappingException, IOException, InvalidKeyException,
 			NoSuchAlgorithmException {
 
-		System.out.println(body);
-		System.out.println(squareSignature);
-
-		final String WEBHOOK_URL = "https://square-sample.herokuapp.com/square/api/webhooks";
-		final String SIGNATURE_KEY = "JOXgbcr-X_Pg0sK69NnRdw";
-
-		String stringToSign = WEBHOOK_URL + body;
-
-		String algo = "HMacSHA1";
-		final SecretKeySpec keySpec = new SecretKeySpec(SIGNATURE_KEY.getBytes(), algo);
-		final Mac mac = Mac.getInstance(algo);
-		mac.init(keySpec);
-		final byte[] signBytes = mac.doFinal(stringToSign.getBytes());
-		System.out.println(Base64.getEncoder().encodeToString(signBytes));
+		if (!signatureService.validate(squareSignature, body)) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 
 		ObjectMapper mapper = new ObjectMapper();
 		WebhooksDto dto = mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE).readValue(body,
 				WebhooksDto.class);
 
-		System.out.println(dto.getLocationId());
-		System.out.println(dto.getEventType());
-		System.out.println(dto.getMerchantId());
-		System.out.println(dto.getEntityId());
-
-		List<V1InventoryEntry> inventoryList = inventoryService.listInventory();
-
+		List<V1InventoryEntry> inventoryList = inventoryService.listInventory(dto.getLocationId());
 		if (inventoryList != null) {
 			System.out.println(inventoryList);
 		}
