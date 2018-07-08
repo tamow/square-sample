@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -26,9 +27,10 @@ public class WebhooksController {
 	private InventoryService inventoryService;
 
 	@RequestMapping(value = "/square/api/webhooks", method = RequestMethod.POST)
-	public ResponseEntity<String> webhooks(
-//		        @RequestHeader(value="HTTP_X_SQUARE_SIGNATURE") String squareSignature,
+	public ResponseEntity<String> webhooks(@RequestHeader(value = "HTTP_X_SQUARE_SIGNATURE") String squareSignature,
 			@RequestBody String body) throws JsonParseException, JsonMappingException, IOException {
+
+		System.out.println(squareSignature);
 
 		ObjectMapper mapper = new ObjectMapper();
 		WebhooksDto dto = mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE).readValue(body,
