@@ -37,17 +37,18 @@
                     "url": "/DataTables-1.10.18/Japanese.json"
                 },
                 "ajax": {
-                    "url": "/getitemlist"
+                    "url": "/getitemlist",
+                    "dataSrc": ""
                 },
                 "columns": [
                     { data: "name" },
                 ],
                 "columnDefs": [
                     { targets: 0, width: 60 },
-                    { targets: '_all', className : 'dt-head-center'},
+                    { targets: "_all", className: "dt-head-center"},
                 ]
             });
-        })
+        });
     </script>
 </body>
 </html>
