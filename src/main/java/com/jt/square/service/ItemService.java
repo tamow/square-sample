@@ -13,6 +13,7 @@ import com.squareup.connect.Configuration;
 import com.squareup.connect.api.CatalogApi;
 import com.squareup.connect.auth.OAuth;
 import com.squareup.connect.models.CatalogObject;
+import com.squareup.connect.models.ListCatalogResponse;
 
 @Service
 public class ItemService {
@@ -34,10 +35,13 @@ public class ItemService {
 		try {
 			List<ItemDto> items = new ArrayList<>();
 			while (cursor != null) {
-				List<CatalogObject> result = apiInstance.listCatalog(cursor, types).getObjects();
-				for (CatalogObject obj : result) {
+				ListCatalogResponse res = apiInstance.listCatalog(cursor, types);
+				cursor = res.getCursor();
+
+				List<CatalogObject> objects = res.getObjects();
+				for (CatalogObject object : objects) {
 					ItemDto item = new ItemDto();
-					item.setName(obj.getItemData().getName());
+					item.setName(object.getItemData().getName());
 					items.add(item);
 				}
 			}
