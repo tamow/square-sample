@@ -1,5 +1,6 @@
 package com.jt.square.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.squareup.connect.ApiClient;
 import com.squareup.connect.ApiException;
+import com.squareup.connect.CompleteResponse;
 import com.squareup.connect.Configuration;
 import com.squareup.connect.api.V1ItemsApi;
 import com.squareup.connect.auth.OAuth;
@@ -27,18 +29,21 @@ public class InventoryService {
 
 		V1ItemsApi apiInstance = new V1ItemsApi();
 
-		// Integer | The maximum number of inventory entries to return in a single
-		// response. This value cannot exceed 1000.
-		final Integer limit = 1000;
-		// String | A pagination cursor to retrieve the next set of results for your
-		// original query to the endpoint.
-		final String batchToken = "";
+		// The maximum number of inventory entries to return in a single response. This value cannot exceed 1000.
+		final Integer limit = 2;
+		// A pagination cursor to retrieve the next set of results for your original query to the endpoint.
+		String batchToken = "";
 
 		try {
-			List<V1InventoryEntry> result = apiInstance.listInventory(locationId, limit, batchToken);
-			return result;
+			List<V1InventoryEntry> inventoryList = new ArrayList<>();
+			while (batchToken != null) {
+				CompleteResponse<List<V1InventoryEntry>> inventory = apiInstance.listInventoryWithHttpInfo(locationId, limit, batchToken);
+				batchToken = inventory.getBatchToken();
+				System.out.println(inventory.getData());
+				inventoryList.addAll(inventory.getData());
+			}
+			return inventoryList;
 		} catch (ApiException e) {
-			e.printStackTrace();
 		}
 
 		return null;

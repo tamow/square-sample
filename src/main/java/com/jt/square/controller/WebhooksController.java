@@ -46,9 +46,11 @@ public class WebhooksController {
 				WebhooksDto.class);
 
 		List<V1InventoryEntry> inventoryList = inventoryService.listInventory(dto.getLocationId());
-		if (inventoryList != null) {
-			System.out.println(inventoryList);
+		if (inventoryList == null || inventoryList.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
+
+		System.out.println(inventoryList);
 
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
